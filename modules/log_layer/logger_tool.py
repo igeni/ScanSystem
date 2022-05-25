@@ -23,14 +23,11 @@ class LoggingLayer:
 
         logger.add(self.tgt, format=fmt, level=lvl, rotation=rot, enqueue=True)
 
-
     def debug(self, val:str):
         logger.debug(val)
 
-
     def info(self, val:str):
         logger.info(val)
-
 
     def get_target(self):
         return self.tgt
