@@ -1,8 +1,7 @@
 """
     logger's test
 """
-
-import pytest
+from time import sleep
 
 from modules.config.config import Config
 from modules.log_layer.logger_tool import LoggingLayer
@@ -13,10 +12,30 @@ cfg = Config(FILENAME)
 log = LoggingLayer(cfg)
 
 
-@pytest.mark.skip(reason="no need to test")
-def test_debug():
-    log.debug("test")
+def get_last_line(filename:str) -> str:
+    with open(filename, 'r') as f:
+        lines = f.readlines()
 
-@pytest.mark.skip(reason="no need to test")
+    return lines[-1] if len(lines)>0 else ""
+
+
+def check_logging(msg:str, mark:str):
+    if mark == 'debug':
+        log.debug(msg)
+    elif mark == 'info':
+        log.info(msg)
+    else:
+        log.debug(msg)
+
+    sleep(0.1)
+
+    last_line = get_last_line(log.get_target())
+
+    if msg not in last_line and last_line != '':
+        assert False
+
+def test_debug():
+    check_logging("debug-test", 'debug')
+
 def test_info():
-    log.info("test")
+    check_logging("info-test", 'info')

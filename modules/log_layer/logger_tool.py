@@ -12,10 +12,7 @@ class LoggingLayer:
     """
 
     def __init__(self, cfg_val):
-        if cfg_val is not None:
-            self.cfg = cfg_val
-        else:
-            self.cfg = Config('../settings.cfg')
+        self.cfg = cfg_val
 
         tgt = f"{self.cfg.get_param('LOGS', 'Folder')}/{self.cfg.get_param('LOGS', 'Filename')}"
         fmt = self.cfg.get_param('LOGS', 'Format')
@@ -30,9 +27,11 @@ class LoggingLayer:
     def debug(self, val:str):
         logger.debug(val)
 
+
     def info(self, val:str):
         logger.info(val)
 
 
-
+    def get_target(self):
+        return self.tgt
 
