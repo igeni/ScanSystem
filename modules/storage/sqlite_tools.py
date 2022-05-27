@@ -1,7 +1,7 @@
 import sqlite3
-
 from typing import List
-from .storage_layer import StorageInterface
+
+from .interface import StorageInterface
 from modules.common import DataStructure as pasteStructures
 
 

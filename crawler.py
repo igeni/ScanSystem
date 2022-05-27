@@ -3,11 +3,13 @@ from modules.config.config import Config
 from modules.log_layer.logger_tool import LoggingLayer
 
 from modules.common import DataStructure
-from modules.storage.sqlite_tools import SQLiteStorage
+# from modules.storage.sqlite_tools import SQLiteStorage
+from modules.storage.storage import Storage
 
 cfg = Config('settings.cfg')
 log = LoggingLayer(cfg)
-storage = SQLiteStorage('db.sqlite')
+# storage = SQLiteStorage('db.sqlite')
+storage = Storage(storage_type='sqlite', path_to_db='db.sqlite')
 
 
 

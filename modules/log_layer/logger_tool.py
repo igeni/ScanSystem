@@ -18,7 +18,6 @@ class LoggingLayer:
         fmt = self.cfg.get_param('LOGS', 'Format')
         lvl = self.cfg.get_param('LOGS', 'Level')
         rot = self.cfg.get_param('LOGS', 'Rotation')
-
         self.tgt = tgt
 
         logger.add(self.tgt, format=fmt, level=lvl, rotation=rot, enqueue=True)
@@ -29,6 +28,6 @@ class LoggingLayer:
     def info(self, val:str):
         logger.info(val)
 
-    def get_target(self):
+    def target(self):
         return self.tgt
 

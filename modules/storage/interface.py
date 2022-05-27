@@ -1,7 +1,3 @@
-"""
-Additional layer for databases
-"""
-
 from abc import ABCMeta, abstractmethod
 
 class StorageInterface(metaclass=ABCMeta):

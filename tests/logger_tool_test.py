@@ -29,7 +29,7 @@ def check_logging(msg:str, mark:str):
 
     sleep(0.1)
 
-    last_line = get_last_line(log.get_target())
+    last_line = get_last_line(log.target())
 
     if msg not in last_line and last_line != '':
         assert False
