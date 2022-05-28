@@ -1,3 +1,5 @@
+import sched, time
+
 import arrow
 from lxml import html
 
@@ -29,12 +31,7 @@ class PastebinComCrawler(CrawlerInterface):
         return res
 
 
-    def start(self):
-
-        # FIXME Включить таймер на 120 секунд
-
-
-
+    def do_work(self):
         self.need_proxy = self.cfg.get_param('CRAWLER.Pastebin', 'RotateProxies').lower() == 'yes'
         self.need_change_header = self.cfg.get_param('CRAWLER.Pastebin', 'RotateHeaders').lower() == 'yes'
         self.ScanNewTasksInterval = self.cfg.get_param('CRAWLER.Pastebin', 'ScanNewTasksInterval')
@@ -61,6 +58,7 @@ class PastebinComCrawler(CrawlerInterface):
 
         all_tasks_list = self.tasks.all_tasks()
         self.storage.save(all_tasks_list)
+
         self.log.info(f'[{self.name}] got {len(all_tasks_list)} new tasks')
 
         for task_key in self.tasks.all_tasks_keys():
@@ -68,3 +66,21 @@ class PastebinComCrawler(CrawlerInterface):
             self.cache.add(task_key)
 
             self.log.info(f'[{self.name}]    saved {task_key} ')
+
+
+
+    def start(self):
+        s = sched.scheduler(time.time, time.sleep)
+        def do_tick(sc):
+            self.do_work()
+            sc.enter(int(self.ScanNewTasksInterval), 1, do_tick, (sc,))
+
+        s.enter(int(self.ScanNewTasksInterval), 1, do_tick, (s,))
+        s.run()
+
+
+
+        # FIXME Включить таймер на 120 секунд
+
+
+
