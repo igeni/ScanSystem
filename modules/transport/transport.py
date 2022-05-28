@@ -3,6 +3,7 @@ Transport
 """
 
 import requests
+import time
 from typing import List
 
 
@@ -18,8 +19,11 @@ class TransportLayer:
     ]
     headers_counter = 0
 
+    first_time = True
+
     def __init__(self, headers_list:List[dict]):
-        self.set_headers(headers_list)
+        if headers_list:
+            self.set_headers(headers_list)
 
     def set_proxies(self, values:list):
         self.proxies = values
@@ -30,11 +34,18 @@ class TransportLayer:
         else:
             print("- empty headers list, we will use header by default -")
 
-    def get(self, url, need_proxy:bool=False, need_change_header:bool = False):
+    def set_not_first_time_status(self):
+        self.first_time = False
+
+    def get(self, url, need_proxy:bool=False, need_change_header:bool = False, interval_sec:int=0):
         """
         getting content with replacing headers and ip's by RoundRobin algorithm
         """
         try:
+            if not self.first_time:
+                print(f'waiting {interval_sec} seconds...')
+                time.sleep(int(interval_sec))
+
             proxy = None
             if need_proxy:
                 if not self.proxies:

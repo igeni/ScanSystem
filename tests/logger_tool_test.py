@@ -18,7 +18,6 @@ def get_last_line(filename:str) -> str:
 
     return lines[-1] if len(lines)>0 else ""
 
-
 def check_logging(msg:str, mark:str):
     if mark == 'debug':
         log.debug(msg)

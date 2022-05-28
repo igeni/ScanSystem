@@ -1,6 +1,9 @@
 import hashlib
+from enum import Enum
 from dataclasses import dataclass
 from dateutil import parser, tz
+
+import arrow
 
 @dataclass
 class DataStructure:
@@ -8,20 +11,22 @@ class DataStructure:
     RULES = []
     SUBSTITUTION = ''
     TARGET_TIMEZONE = tz.gettz('UTC')
+    FORMAT = 'YYYY-MM-DD HH:mm:ss ZZ'
 
     author: str
     title: str
     content: str
     date: str
     hash_val: str
+    url: str
     timezones: dict
 
-
-    def __init__(self, author:str, title:str, content:str, date:str):
+    def __init__(self, author:str, title:str, content:str, date:str, url:str):
         self.author = author
         self.title = title
         self.content = content
         self.date = date
+        self.url = url
 
         self.hash_val = ""
 
@@ -51,6 +56,10 @@ class DataStructure:
     def set_target_timezone(cls, val:str):
         cls.TARGET_TIMEZONE = tz.gettz(val)
 
+    @classmethod
+    def set_datetime_format(cls, val:str):
+        cls.FORMAT = val
+
     def normalize(self):
         if self.author.lower() in DataStructure.RULES:
             self.author = DataStructure.SUBSTITUTION
@@ -59,8 +68,7 @@ class DataStructure:
             self.title = DataStructure.SUBSTITUTION
 
         dt = parser.parse(self.date, tzinfos=self.timezones)
-        date_tz = dt.astimezone(DataStructure.TARGET_TIMEZONE)
-        self.date = date_tz.strftime('%Y-%m-%d %H:%M:%S %z')
+        self.date = arrow.get(dt).to(DataStructure.TARGET_TIMEZONE).format(self.FORMAT)
 
         self.content = self.content.strip()
 
@@ -73,3 +81,14 @@ class DataStructure:
             hash_val = self.hash_val
 
         return hash_val
+
+
+class StorageType(Enum):
+    SQLITE = 0
+    REDIS = 1
+    POSTGRES = 2
+
+class CrawlerType(Enum):
+    PASTEBIN = 0
+    TINYPASTE = 1
+    GIST = 2
