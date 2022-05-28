@@ -1,8 +1,9 @@
 from modules.crawlers.crawler import Crawler
 from modules.common import CrawlerType
 
+
 crawler = Crawler(crawler_type=CrawlerType.PASTEBIN)
-crawler.start()
+
 
 
 
@@ -59,4 +60,4 @@ crawler.start()
 
 
 if __name__ == "__main__":
-    print("-+-")
+    crawler.start()

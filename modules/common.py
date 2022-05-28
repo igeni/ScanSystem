@@ -57,21 +57,31 @@ class DataStructure:
         cls.TARGET_TIMEZONE = tz.gettz(val)
 
     @classmethod
+    def get_target_timezone(cls) -> str:
+        return cls.TARGET_TIMEZONE
+
+    @classmethod
     def set_datetime_format(cls, val:str):
         cls.FORMAT = val
 
+    @classmethod
+    def get_datetime_format(cls) -> str:
+        return cls.FORMAT
+
     def normalize(self):
+        def safe_text(val:str) -> str:
+            return val.replace("'", "''")
+
         if self.author.lower() in DataStructure.RULES:
-            self.author = DataStructure.SUBSTITUTION
+            self.author = safe_text(DataStructure.SUBSTITUTION)
 
         if self.title.lower() in DataStructure.RULES:
-            self.title = DataStructure.SUBSTITUTION
+            self.title = safe_text(DataStructure.SUBSTITUTION)
 
         dt = parser.parse(self.date, tzinfos=self.timezones)
         self.date = arrow.get(dt).to(DataStructure.TARGET_TIMEZONE).format(self.FORMAT)
 
-        self.content = self.content.strip()
-
+        self.content = safe_text(self.content.strip())
 
     def get_hash(self):
         if not self.hash_val:
@@ -87,6 +97,7 @@ class StorageType(Enum):
     SQLITE = 0
     REDIS = 1
     POSTGRES = 2
+
 
 class CrawlerType(Enum):
     PASTEBIN = 0

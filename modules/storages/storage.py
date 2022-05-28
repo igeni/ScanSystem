@@ -5,6 +5,7 @@ Additional layer for databases
 from .sqlite_tools import SQLiteStorage
 from modules.common import StorageType
 
+
 class Storage:
     db = None
     timezone: str

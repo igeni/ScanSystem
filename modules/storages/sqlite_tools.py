@@ -4,7 +4,7 @@ from typing import List
 import arrow
 
 from .interface import StorageInterface
-from modules.common import DataStructure as pasteStructures
+from modules.common import DataStructure
 
 
 class SQLiteStorage(StorageInterface):
@@ -18,13 +18,16 @@ class SQLiteStorage(StorageInterface):
     def __del__(self):
         self.conn.close()
 
-    def save(self, values:List[pasteStructures]) -> sqlite3.Cursor:
+    def save(self, values:List[DataStructure]) -> sqlite3.Cursor:
         sql_head = 'INSERT INTO pastes(author, title, content, posted, url) VALUES'
         sql_tail = ''
         for item in values:
             sql_tail += f"('{item.author}','{item.title}','{item.content}','{item.date}','{item.url}'),"
 
-        return self.exec(f"{sql_head}{sql_tail[:-1]}")
+        if sql_tail:
+            return self.exec(f"{sql_head}{sql_tail[:-1]}")
+        else:
+            return self.cur
 
     def get_result(self, script:str) -> sqlite3.Cursor:
         return self.cur.execute(script)
