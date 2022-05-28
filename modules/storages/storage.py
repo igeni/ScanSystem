@@ -40,5 +40,5 @@ class Storage:
     def clean(self):
         self.db.clean()
 
-    def clean(self):
-        self.db.cl
+    def close(self):
+        self.db.close()
