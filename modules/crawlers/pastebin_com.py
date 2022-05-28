@@ -41,8 +41,7 @@ class PastebinComCrawler(CrawlerInterface):
         self.need_change_header = self.cfg.get_param('CRAWLER.Pastebin', 'RotateHeaders').lower() == 'yes'
         self.ScanNewTasksInterval = self.cfg.get_param('CRAWLER.Pastebin', 'ScanNewTasksInterval')
 
-        # FIXME Удалить ограничение для get_new_tasks()[]
-        for task_url in self.get_new_tasks(): # [:10]:
+        for task_url in self.get_new_tasks():
             if not self.cache.check(task_url):
                 task_raw = self.transport.get(f'{self.task_prefix}{task_url}', need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval_sec=0)
 
