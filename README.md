@@ -59,16 +59,16 @@ System-wide settings stored in settings.cfg file and have detailed descpiptions
 ## Transport Layer
 Add proxies lines to file list_proxy.cfg and set up option RotateProxies = yes in section 'CRAWLER.*' to uses rotating proxies mechanism.
 Also you can add User Agents strings to file list_user_agents.cfg and set up RotateHeaders = yes in the same section to enable UA rotating tool. 
-In this case every connection will be established throught new ip with new UA parameter.
+In this case every connection will be established on new ip with new UA parameter.
 
 ## Anti-scan protection
 Use RotateProxies = yes and RotateHeaders = yes like it described in the 'Transport Layer' section to activate anti-scan protection mode 
 
 ## Logs
-Set up parameters in the LOGS sectin of the settings.cfg file 
+Set up parameters in the LOGS section of the settings.cfg file 
     
 ## Storages
-System uses realisation independent storage interface so you can easily add new type of storage to system without any dificulties
+System uses realisation independent storage interface so you can easily add new type of storage to system without any difficulties
 To add new storage just add new class inherited from StorageInterface and swith on connection in the Storage class (storages/storage.py).  
 
 ## Crawlers
@@ -76,13 +76,13 @@ System uses realisation independent crawlers interface and you can add new crawl
 Scanner uses his own mechanism to decrease load into target's website by preventing repeated requests 
     
 ## Data normalization
-Scanner system use DataStructure class (common.py) to unify sheduler of tasks. All datum will be normalize automaticaly
+Scanner system use DataStructure class (common.py) to unify sheduler of tasks. All datum will be normalize automatically
 Add your own rules in the 'RULES' section
 
 ## Monitoring
 Every ScanNewTasksInterval seconds system send alive status to AliveStatusURL ('CRAWLER.*' section of settings.cfg file). Option can be disabled
 
 ## Auto-recovery
-If something went wrong (for example k8s restart destroyed and created instance) scanner system can obtain own previous state automaticaly. Of course you have to use storage outside your instance
+If something went wrong (for example k8s restart destroyed and created instance) scanner system can obtain own previous state automatically. Of course you have to use storage outside your instance
 
 ---
