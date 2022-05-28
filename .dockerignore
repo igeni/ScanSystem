@@ -1,0 +1,12 @@
+.env/
+.pytest_cache/
+.git/
+.idea/
+.dockerignore
+.gitignore
+
+Dockerfile
+docker-compose.yml
+TODO.txt
+Problem.txt
+
