@@ -6,4 +6,5 @@ crawler = Crawler(crawler_type=CrawlerType.PASTEBIN)
 
 
 if __name__ == "__main__":
+    print('starting...')
     crawler.start()
