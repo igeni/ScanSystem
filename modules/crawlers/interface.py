@@ -18,12 +18,14 @@ class CrawlerInterface(metaclass=ABCMeta):
     need_proxy = False
     need_change_header = False
 
-    def __init__(self):
+    def __init__(self, db_file=''):
         self.transport = TransportLayer([])
         self.cfg = Config('settings.cfg')
         self.log = LoggingLayer(self.cfg)
 
-        db_file = self.cfg.get_param('DATABASES.SQLite', 'Filename')
+        if not db_file:
+            db_file = self.cfg.get_param('DATABASES.SQLite', 'Filename')
+
         timezone = self.cfg.get_param('DEFAULT', 'SystemTimezone')
         self.storage = Storage(storage_type=StorageType.SQLITE, path_to_db=db_file, timezone=timezone)
 

@@ -13,6 +13,8 @@ class PastebinComCrawler(CrawlerInterface):
     task_prefix = 'https://pastebin.com'
     ScanNewTasksInterval = 0
 
+    alive_status_url = ''
+
     @staticmethod
     def get_from_tree(tree, val:str, default_val='Unknown') -> str:
         raw_res = tree.xpath(val)
@@ -30,8 +32,11 @@ class PastebinComCrawler(CrawlerInterface):
 
         return res
 
-
     def do_work(self):
+        if not self.alive_status_url:
+            self.alive_status_url = self.cfg.get_param('CRAWLER.Pastebin', 'AliveStatusURL')
+        self.transport.send_alive(self.alive_status_url)
+
         self.need_proxy = self.cfg.get_param('CRAWLER.Pastebin', 'RotateProxies').lower() == 'yes'
         self.need_change_header = self.cfg.get_param('CRAWLER.Pastebin', 'RotateHeaders').lower() == 'yes'
         self.ScanNewTasksInterval = self.cfg.get_param('CRAWLER.Pastebin', 'ScanNewTasksInterval')
@@ -67,8 +72,6 @@ class PastebinComCrawler(CrawlerInterface):
 
             self.log.info(f'[{self.name}]    saved {task_key} ')
 
-
-
     def start(self):
         s = sched.scheduler(time.time, time.sleep)
         def do_tick(sc):
@@ -77,10 +80,3 @@ class PastebinComCrawler(CrawlerInterface):
 
         s.enter(int(self.ScanNewTasksInterval), 1, do_tick, (s,))
         s.run()
-
-
-
-        # FIXME Включить таймер на 120 секунд
-
-
-

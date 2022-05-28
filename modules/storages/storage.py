@@ -36,3 +36,9 @@ class Storage:
 
     def get_all_by_depth(self, hours:int) -> list:
         return self.db.get_all_by_depth(hours)
+
+    def clean(self):
+        self.db.clean()
+
+    def clean(self):
+        self.db.cl

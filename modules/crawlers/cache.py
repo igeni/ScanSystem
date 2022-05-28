@@ -16,4 +16,3 @@ class Cache:
 
     def check(self, val:str):
         return bool(self.cache.get(val, False))
-

@@ -43,7 +43,7 @@ class TransportLayer:
         """
         try:
             if not self.first_time:
-                print(f'waiting {interval_sec} seconds...')
+                # print(f'waiting {interval_sec} seconds...')
                 time.sleep(int(interval_sec))
 
             proxy = None
@@ -62,3 +62,10 @@ class TransportLayer:
             return req
         except Exception as e:
             return None
+
+    @staticmethod
+    def send_alive(url:str):
+        try:
+            _ = requests.get(url=url)
+        except:
+            pass

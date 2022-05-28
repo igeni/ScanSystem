@@ -49,3 +49,9 @@ class SQLiteStorage(StorageInterface):
             result.append(item[0])
 
         return result
+
+    def clean(self):
+        _ = self.get_result(f"DELETE FROM pastes WHERE 1")
+
+    def close(self):
+        self.conn.close()
