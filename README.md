@@ -75,7 +75,7 @@ To add new storage just add new class inherited from StorageInterface and swith 
 System uses realisation independent crawlers interface and you can add new crawler easily. Add new crawlers class inherited from CrawlerInterface and plug it to Crawler class (crawlers/crawler.py)
 Scanner uses his own mechanism to decrease load into target's website by preventing repeated requests 
     
-## Data normalisation
+## Data normalization
 Scanner system use DataStructure class (common.py) to unify sheduler of tasks. All datum will be normalize automaticaly
 Add your own rules in the 'RULES' section
 
