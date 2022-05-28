@@ -70,7 +70,7 @@ class DataStructure:
 
     def normalize(self):
         def safe_text(val:str) -> str:
-            return val.replace("'", "''")
+            return val.replace('"', '""')
 
         if self.author.lower() in DataStructure.RULES:
             self.author = safe_text(DataStructure.SUBSTITUTION)

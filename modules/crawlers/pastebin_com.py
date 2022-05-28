@@ -42,7 +42,7 @@ class PastebinComCrawler(CrawlerInterface):
         self.ScanNewTasksInterval = self.cfg.get_param('CRAWLER.Pastebin', 'ScanNewTasksInterval')
 
         # FIXME Удалить ограничение для get_new_tasks()[]
-        for task_url in self.get_new_tasks()[:10]:
+        for task_url in self.get_new_tasks(): # [:10]:
             if not self.cache.check(task_url):
                 task_raw = self.transport.get(f'{self.task_prefix}{task_url}', need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval_sec=0)
 
@@ -61,12 +61,19 @@ class PastebinComCrawler(CrawlerInterface):
                     DataStruct(author=author, title=title, content=content, date=date, url=task_url)
                 )
 
-        all_tasks_list = self.tasks.all_tasks()
-        self.storage.save(all_tasks_list)
+        new_keys = self.tasks.all_tasks_keys()
 
+        all_tasks_list = self.tasks.all_tasks()
         self.log.info(f'[{self.name}] got {len(all_tasks_list)} new tasks')
 
-        for task_key in self.tasks.all_tasks_keys():
+        if len(new_keys) > 0:
+            before_save = self.storage.count()
+            self.storage.save(all_tasks_list)
+            after_save = self.storage.count()
+            if after_save - before_save <= 0:
+                self.log.debug(f'[{self.name}] problem with data {all_tasks_list}')
+
+        for task_key in new_keys:
             self.tasks.remove(task_key)
             self.cache.add(task_key)
 

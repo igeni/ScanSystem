@@ -22,10 +22,11 @@ class SQLiteStorage(StorageInterface):
         sql_head = 'INSERT INTO pastes(author, title, content, posted, url) VALUES'
         sql_tail = ''
         for item in values:
-            sql_tail += f"('{item.author}','{item.title}','{item.content}','{item.date}','{item.url}'),"
+            sql_tail += f'("{item.author}","{item.title}","{item.content}","{item.date}","{item.url}"),'
 
         if sql_tail:
-            return self.exec(f"{sql_head}{sql_tail[:-1]}")
+            res = self.exec(f'{sql_head}{sql_tail[:-1]}')
+            return res
         else:
             return self.cur
 
@@ -33,7 +34,10 @@ class SQLiteStorage(StorageInterface):
         return self.cur.execute(script)
 
     def exec(self, script:str) -> sqlite3.Cursor:
-        return self.cur.executescript(script)
+        try:
+            return self.cur.executescript(script)
+        except Exception as e:
+            return None
 
     def count(self) -> int:
         res0 = self.get_result('SELECT COUNT(*) FROM pastes')
