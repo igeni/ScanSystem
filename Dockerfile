@@ -5,4 +5,5 @@ COPY req.txt req.txt
 RUN pip install -r req.txt
 #EXPOSE 8000
 COPY . .
-CMD ["python3", "main.py"]
+
+CMD ["/usr/local/bin/python", "main.py"]

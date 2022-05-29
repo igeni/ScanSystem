@@ -47,6 +47,8 @@ This scanner app built as universal and flexible platform for scan data from onl
 - Flexible configured i-am-alive reports to outer service
 
 - Use docker or docker-compose to start system in container
+    - $ docker build -q -t scan_app . && docker run scan_app \
+    or
     - $ docker-compose up
 
 - All code covered by tests
