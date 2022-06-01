@@ -9,12 +9,12 @@ class StorageInterface(metaclass=ABCMeta):
 
     @abstractmethod
     def save(self, values:list):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def count(self) -> int:
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def get_all_by_depth(self, hours:int) -> list:
-        pass
+        raise NotImplementedError

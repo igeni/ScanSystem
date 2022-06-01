@@ -52,11 +52,11 @@ class CrawlerInterface(metaclass=ABCMeta):
         """
         start crawler
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def get_new_tasks(self):
         """
         collect tasks from website
         """
-        pass
+        raise NotImplementedError
