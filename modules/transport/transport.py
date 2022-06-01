@@ -6,10 +6,11 @@ import requests
 import time
 from typing import List
 
-from modules.exceptions import TransportError
+from modules.exceptions import TransportError, SendAliveError, NoProxiesError
 
 
 Seconds = int
+
 
 class TransportLayer:
     """
@@ -52,7 +53,7 @@ class TransportLayer:
             proxy = None
             if need_proxy:
                 if not self.proxies:
-                    raise Exception("you have to set proxies")
+                    raise NoProxiesError("you have to set proxies")
                 self.proxy_counter = (self.proxy_counter + 1) % len(self.proxies)
                 proxy = {'http': f'http://{self.proxies[self.proxy_counter]}'}
 
@@ -70,5 +71,5 @@ class TransportLayer:
     def send_alive(url:str):
         try:
             _ = requests.get(url=url)
-        except:
+        except SendAliveError:
             pass

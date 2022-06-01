@@ -81,6 +81,8 @@ class DataStructure:
         dt = parser.parse(self.date, tzinfos=self.timezones)
         self.date = arrow.get(dt).to(DataStructure.TARGET_TIMEZONE).format(self.FORMAT)
 
+        self.author = safe_text(self.author.strip())
+        self.title = safe_text(self.title.strip())
         self.content = safe_text(self.content.strip())
 
     def get_hash(self):

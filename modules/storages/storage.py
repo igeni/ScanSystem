@@ -4,6 +4,7 @@ Additional layer for databases
 
 from .sqlite_tools import SQLiteStorage
 from modules.common import StorageType
+from modules.exceptions import WrongStorageTypeError
 
 
 class Storage:
@@ -26,7 +27,7 @@ class Storage:
             fail = True
 
         if fail:
-            raise Exception("other storage types except 'sqlite' are not supported yet")
+            raise WrongStorageTypeError("other storage types except 'sqlite' are not supported yet")
 
     def save(self, values:list):
         self.db.save(values)

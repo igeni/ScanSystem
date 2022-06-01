@@ -3,6 +3,8 @@ Provides tools to manage config
 """
 
 import configparser
+from modules.exceptions import MissingConfigKeyError
+
 
 class Config:
     """
@@ -20,4 +22,4 @@ class Config:
         try:
             return self.config[section][key]
         except:
-            raise Exception(f"[{section}][{key}] not found in file '{self.configfile}'")
+            raise MissingConfigKeyError(f"[{section}][{key}] not found in file '{self.configfile}'")
