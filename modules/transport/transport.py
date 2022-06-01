@@ -71,5 +71,6 @@ class TransportLayer:
     def send_alive(url:str):
         try:
             _ = requests.get(url=url)
-        except SendAliveError:
+        except:
             pass
+
