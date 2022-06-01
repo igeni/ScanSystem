@@ -2,14 +2,15 @@ import hashlib
 from enum import Enum
 from dataclasses import dataclass
 from dateutil import parser, tz
+from typing import List, Any
 
 import arrow
 
 @dataclass
 class DataStructure:
     """Class for data"""
-    RULES = []
-    SUBSTITUTION = ''
+    RULES:list
+    SUBSTITUTION:str
     TARGET_TIMEZONE = tz.gettz('UTC')
     FORMAT = 'YYYY-MM-DD HH:mm:ss ZZ'
 
@@ -48,8 +49,8 @@ class DataStructure:
         self.hash_val = self.get_hash()
 
     @classmethod
-    def init_rules(cls, rules:list, val:str):
-        cls.RULES = [item.lower() for item in rules]
+    def init_rules(cls, rules:List[str], val:str):
+        cls.RULES = [str(item).lower() for item in rules]
         cls.SUBSTITUTION = val
 
     @classmethod
@@ -57,7 +58,7 @@ class DataStructure:
         cls.TARGET_TIMEZONE = tz.gettz(val)
 
     @classmethod
-    def get_target_timezone(cls) -> str:
+    def get_target_timezone(cls) -> Any:
         return cls.TARGET_TIMEZONE
 
     @classmethod

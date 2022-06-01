@@ -1,5 +1,5 @@
 import sqlite3
-from typing import List
+from typing import List, Any
 
 import arrow
 
@@ -34,7 +34,7 @@ class SQLiteStorage(StorageInterface):
     def get_result(self, script:str) -> sqlite3.Cursor:
         return self.cur.execute(script)
 
-    def exec(self, script:str) -> sqlite3.Cursor:
+    def exec(self, script:str) -> Any:
         try:
             return self.cur.executescript(script)
         except SQLStorageExecutionError as e:

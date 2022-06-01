@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from modules.common import DataStructure
 
 
@@ -6,7 +6,7 @@ class Tasks:
     """
     active tasks storage
     """
-    tasks = {}
+    tasks:Dict[str, DataStructure] = {}
 
     def add(self, val:DataStructure):
         self.tasks[val.url] = val

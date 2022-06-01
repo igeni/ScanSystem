@@ -16,7 +16,7 @@ class TransportLayer:
     """
     transport layer with using proxy and changing headers
     """
-    proxies = []
+    proxies:List[str]  = []
     proxy_counter = 0
 
     headers = [

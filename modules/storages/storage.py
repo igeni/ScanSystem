@@ -2,13 +2,15 @@
 Additional layer for databases
 """
 
+from typing import Any
+
 from .sqlite_tools import SQLiteStorage
 from modules.common import StorageType
 from modules.exceptions import WrongStorageTypeError
 
 
 class Storage:
-    db = None
+    db:Any = None
     timezone: str
 
     def __init__(self, **params):

@@ -1,8 +1,11 @@
+from typing import Dict
+
+
 class Cache:
     """
     cache for avoid extra work
     """
-    cache = {}
+    cache: Dict[str, bool] = {}
 
     def init_cache(self, values:list):
         for item in values:
