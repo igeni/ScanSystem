@@ -5,6 +5,7 @@ import arrow
 
 from .interface import StorageInterface
 from modules.common import DataStructure
+from modules.exceptions import SQLStorageExecutionError
 
 
 class SQLiteStorage(StorageInterface):
@@ -36,7 +37,7 @@ class SQLiteStorage(StorageInterface):
     def exec(self, script:str) -> sqlite3.Cursor:
         try:
             return self.cur.executescript(script)
-        except Exception as e:
+        except SQLStorageExecutionError as e:
             return None
 
     def count(self) -> int:

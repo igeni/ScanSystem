@@ -21,7 +21,7 @@ class PastebinComCrawler(CrawlerInterface):
         return str(raw_res[0]) if len(raw_res) > 0 else default_val
 
     def get_new_tasks(self) -> list:
-        page = self.transport.get(self.tasks_list_url, need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval_sec=self.ScanNewTasksInterval)
+        page = self.transport.get(self.tasks_list_url, need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval=self.ScanNewTasksInterval)
         tree = html.fromstring(page.content)
 
         main_table_urls = tree.xpath('//table[@class="maintable"]//tr/td//span/parent::node()/a/@href')
@@ -43,7 +43,7 @@ class PastebinComCrawler(CrawlerInterface):
 
         for task_url in self.get_new_tasks():
             if not self.cache.check(task_url):
-                task_raw = self.transport.get(f'{self.task_prefix}{task_url}', need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval_sec=0)
+                task_raw = self.transport.get(f'{self.task_prefix}{task_url}', need_proxy=self.need_proxy, need_change_header=self.need_change_header, interval=0)
 
                 tree = html.fromstring(task_raw.content)
 

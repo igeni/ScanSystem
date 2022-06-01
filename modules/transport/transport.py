@@ -6,6 +6,10 @@ import requests
 import time
 from typing import List
 
+from modules.exceptions import TransportError
+
+
+Seconds = int
 
 class TransportLayer:
     """
@@ -37,14 +41,13 @@ class TransportLayer:
     def set_not_first_time_status(self):
         self.first_time = False
 
-    def get(self, url, need_proxy:bool=False, need_change_header:bool = False, interval_sec:int=0):
+    def get(self, url, need_proxy:bool=False, need_change_header:bool = False, interval:Seconds=0):
         """
         getting content with replacing headers and ip's by RoundRobin algorithm
         """
         try:
             if not self.first_time:
-                # print(f'waiting {interval_sec} seconds...')
-                time.sleep(int(interval_sec))
+                time.sleep(int(interval))
 
             proxy = None
             if need_proxy:
@@ -60,7 +63,7 @@ class TransportLayer:
             # TODO for production purposes we need not to use RoundRobin with weights for proxies because unstable connection
             req = requests.get(url, headers=header, proxies=proxy)       # only http proxies
             return req
-        except Exception as e:
+        except TransportError:
             return None
 
     @staticmethod
